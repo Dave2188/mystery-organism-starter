@@ -13,13 +13,15 @@ const mockUpStrand = () => {
   return newStrand;
 };
 
+// function to find the percentage
 const findPercent = (partNum,totalNum) => {
    return Math.round((partNum / totalNum) * 100);
 }
 
+//holds the 30 survivors from the make30 function call at the bottom
 const arrOfSpecimens = [];
 
-//function takes in sample number and gives it a random dna strand from mockupstrand
+//function returns an object from a sample number and the mockupstrand function
 const pAequorFactory = (sNum,mockUpStrand) => { 
   return {specimenNum: sNum, 
                   dna: mockUpStrand(), 
@@ -34,8 +36,7 @@ const pAequorFactory = (sNum,mockUpStrand) => {
                     const spec2 = otherSpecimen.dna;
                     let numOfCommon = 0;
                     let index = 0;
-                    
-
+                  
                     for (dna in spec1) {
                        if (spec1[index] === spec2[index]) {
                          numOfCommon++;
@@ -63,12 +64,12 @@ const pAequorFactory = (sNum,mockUpStrand) => {
                     let percentG = findPercent(numOfG, 15);
 
                     return percentC >= 60 || percentG >= 60 ? true : false;
-                    
                   }
                 };        
                                                     
 };
 
+//The specimen surrvives if DNA is 60% or more of 'C' or 'G'
 const make30Survive = () => {
   let specNum = 1
       while (arrOfSpecimens.length < 31){
@@ -83,16 +84,15 @@ const make30Survive = () => {
 };
 
 
-make30Survive()
-//console.log(arrOfSpecimens.length);
-//test for factory function and mutate method
+//Test section for all functions
 //console.log(pAequorFactory(1,mockUpStrand));
 //arrOfSpecimens.push(pAequorFactory(1,mockUpStrand));
 //arrOfSpecimens.push(pAequorFactory(2,mockUpStrand));
 //console.log(arrOfSpecimens[0].willLikelySurvive());
 //console.log(arrOfSpecimens[0].compareDna(arrOfSpecimens[1]));
 // arrOfSpecimens[0].mutate();
- console.log(arrOfSpecimens);
+make30Survive()
+console.log(arrOfSpecimens);
 
 
 
