@@ -13,22 +13,21 @@ const mockUpStrand = () => {
   return newStrand;
 };
 
-// function to find the percentage
 const findPercent = (partNum,totalNum) => {
    return Math.round((partNum / totalNum) * 100);
 }
 
-//holds the 30 survivors from the make30 function call at the bottom
-const arrOfSpecimens = [];
+const fullDnaStrand = 15;
+const survivingSpecimens = [];
+const ranNum = Math.floor(Math.random() * 16)
 
-//function returns an object from a sample number and the mockupstrand function
+//function returns an specimen object
 const pAequorFactory = (sNum,mockUpStrand) => { 
   return {specimenNum: sNum, 
                   dna: mockUpStrand(), 
-                  mutate() {
-                    const ranNum = Math.floor(Math.random() * 16)
-                    let selRanBase = this.dna[ranNum];
-                    let newMutated = returnRandBase();
+                  mutate() {  
+                    const selRanBase = this.dna[ranNum];
+                    const newMutated = returnRandBase();
                     selRanBase !== newMutated ? this.dna[ranNum] = newMutated : this.mutate();
                   },
                   compareDna(otherSpecimen) {
@@ -44,7 +43,7 @@ const pAequorFactory = (sNum,mockUpStrand) => {
                        index++
                     };
                     
-                    let percentInCommon = findPercent(numOfCommon,15);
+                    const percentInCommon = findPercent(numOfCommon,fullDnaStrand);
 
                     return `Specimen #${this.specimenNum} and Specimen #${otherSpecimen.specimenNum} have 
                     ${percentInCommon}% DNA in common.`;
@@ -60,25 +59,25 @@ const pAequorFactory = (sNum,mockUpStrand) => {
                       };
                     };
                   
-                    let percentC = findPercent(numOfC, 15);
-                    let percentG = findPercent(numOfG, 15);
+                    const percentC = findPercent(numOfC, fullDnaStrand);
+                    const percentG = findPercent(numOfG, fullDnaStrand);
 
-                    return percentC >= 60 || percentG >= 60 ? true : false;
+                    return percentC >= 60 || percentG >= 60;
                   }
                 };        
                                                     
 };
 
-//The specimen surrvives if DNA is 60% or more of 'C' or 'G'
+
 const make30Survive = () => {
-  let specNum = 1
-      while (arrOfSpecimens.length < 31){
-        const spec = pAequorFactory(specNum,mockUpStrand)
+  let specimenNum = 1
+      while (survivingSpecimens.length < 31){
+        const spec = pAequorFactory(specimenNum,mockUpStrand)
         const willSurvive = spec.willLikelySurvive();
 
-        if (willSurvive === true) {
-          arrOfSpecimens.push(spec);
-          specNum++
+        if (willSurvive) {
+          survivingSpecimens.push(spec);
+          specimenNum++
         };
       };
 };
@@ -92,7 +91,7 @@ const make30Survive = () => {
 //console.log(arrOfSpecimens[0].compareDna(arrOfSpecimens[1]));
 // arrOfSpecimens[0].mutate();
 make30Survive()
-console.log(arrOfSpecimens);
+console.log(survivingSpecimens);
 
 
 
